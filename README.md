@@ -2,7 +2,7 @@
 
 > App pessoal de treino, alimentação e evolução — tudo em um só lugar, com tema escuro personalizável e agenda semanal com anéis de progresso.
 
-[![Acessar Fit App](https://img.shields.com/badge/🚀_Acessar_o_Fit_App-fit--app--woad.vercel.app-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://fit-app-woad.vercel.app)
+[![Acessar Fit App](https://img.shields.com/badge/Acessar_o_Fit_App-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://fit-app-woad.vercel.app)
 [![Vite](https://img.shields.com/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
 [![React](https://img.shields.com/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
 
