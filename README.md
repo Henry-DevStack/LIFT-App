@@ -1,16 +1,37 @@
-# React + Vite
+# 🏋️ Fit App
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+App pessoal de treino, alimentação e evolução — tudo em um só lugar, com
+tema escuro personalizável e agenda semanal com anéis de progresso.
 
-Currently, two official plugins are available:
+## 📲 Como usar
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Abra o link abaixo no celular:
 
-## React Compiler
+**➡️ [cole aqui o link da Vercel, ex: `https://fit-app-seunome.vercel.app`]**
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Depois de abrir, adicione à tela inicial pra ele funcionar como um app
+de verdade (ícone próprio, tela cheia, sem barra do navegador):
 
-## Expanding the Oxlint configuration
+- **Android (Chrome):** toque nos ⋮ (3 pontinhos) → **Adicionar à tela
+  inicial**
+- **iPhone (Safari):** toque no botão de compartilhar (□ com seta pra
+  cima) → **Adicionar à Tela de Início**
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+Pronto — é só abrir pelo ícone e usar normalmente. Não precisa instalar
+nada, criar conta ou baixar arquivo nenhum.
+
+> Os dados (treinos, refeições, medidas etc.) ficam salvos só no seu
+> próprio aparelho. Se abrir em outro celular, começa do zero por lá.
+
+## ✨ O que o app faz
+
+- Agenda semanal com anéis de progresso (séries, volume, repetições,
+  calorias e macros)
+- Biblioteca de treinos prontos (PPL, Upper/Lower, Full Body, Core &
+  Cardio) pra combinar com o plano pessoal
+- Editor de treinos com séries, reps, carga e descanso por exercício
+- Modo de execução de treino com cronômetro de descanso
+- Registro de alimentação com metas de calorias e macros
+- Lembretes de suplementos (creatina, whey etc.) e controle de água
+- Acompanhamento de peso/medidas ao longo do tempo
+- Tema com cor de destaque personalizável
