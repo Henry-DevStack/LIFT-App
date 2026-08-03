@@ -63,7 +63,7 @@ Aqui a proposta é outra. Você abre, registra, e pronto. Sem login, sem servido
 - **Evolução corporal** — peso e medidas em gráficos ao longo do tempo
 - **Backup e restauração** — exporte tudo em um arquivo e recupere quando trocar de aparelho
 
----
+<img src="./.github/assets/readme-divider.gif" alt="" width="100%">
 
 ## 📲 Instalação
 
