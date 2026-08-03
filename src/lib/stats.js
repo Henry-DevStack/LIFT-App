@@ -47,17 +47,32 @@ export function getTrainingStatsForDate(dateStr) {
   let sets = 0;
   let volume = 0;
   let reps = 0;
+  let calories = 0;
   logs.forEach((log) => {
+    calories += Number(log.caloriesBurned) || 0;
     log.exercises?.forEach((ex) => {
       sets += ex.setsCompleted || 0;
-      reps += (ex.setsCompleted || 0) * (ex.reps || 0);
-      (ex.loadsUsed || []).forEach((load) => {
-        const n = Number(load);
-        if (!Number.isNaN(n) && n > 0) volume += n * (ex.reps || 1);
-      });
+      if (ex.repsUsed?.length) {
+        // Treinos novos guardam as reps reais feitas em cada série
+        // (ajustadas durante o treino), então usamos elas pro cálculo.
+        ex.repsUsed.forEach((r, i) => {
+          const repsN = Number(r) || 0;
+          reps += repsN;
+          const loadN = Number((ex.loadsUsed || [])[i]);
+          if (!Number.isNaN(loadN) && loadN > 0) volume += loadN * repsN;
+        });
+      } else {
+        // Fallback pra treinos registrados antes dessa mudança, que só
+        // guardavam a meta de reps (não a real feita série a série).
+        reps += (ex.setsCompleted || 0) * (ex.reps || 0);
+        (ex.loadsUsed || []).forEach((load) => {
+          const n = Number(load);
+          if (!Number.isNaN(n) && n > 0) volume += n * (ex.reps || 1);
+        });
+      }
     });
   });
-  return { sets, volume: Math.round(volume), reps, logs };
+  return { sets, volume: Math.round(volume), reps, logs, calories: Math.round(calories) };
 }
 
 // Agrega macros/calorias do dia a partir das refeições.
