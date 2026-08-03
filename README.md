@@ -1,42 +1,143 @@
-# 🏋️ Fit App
+<div align="center">
 
-> App pessoal de treino, alimentação e evolução — tudo em um só lugar, com tema escuro personalizável e agenda semanal com anéis de progresso.
+# 🏋️ Lift
 
-[![Acessar Fit App](https://img.shields.com/badge/Acessar_o_Fit_App-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://fit-app-woad.vercel.app)
-[![Vite](https://img.shields.com/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
-[![React](https://img.shields.com/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
+**Seu treino, do planejamento ao progresso — em um app só, offline e sem conta.**
 
----
+[![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
+[![React](https://img.shields.io/badge/React_19-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://react.dev/)
+[![Tailwind](https://img.shields.io/badge/Tailwind-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![PWA](https://img.shields.io/badge/PWA-5A0FC8?style=for-the-badge&logo=pwa&logoColor=white)](https://web.dev/progressive-web-apps/)
 
-## 🚀 Link de Acesso
-
-Acesse o aplicativo diretamente pelo navegador:
-
-👉 **[https://fit-app-woad.vercel.app](https://fit-app-woad.vercel.app)**
+</div>
 
 ---
 
-## 📲 Como usar no Celular (Como Web App)
+## Sobre
 
-Abra o link acima no seu smartphone. Depois de abrir, adicione-o à tela inicial para funcionar como um app de verdade (ícone próprio na tela do celular, exibição em tela cheia e sem barra do navegador):
+O **Lift** nasceu de um incômodo simples: apps de treino ou pedem assinatura, ou pedem conta, ou enchem a tela de coisa que ninguém usa no meio de uma série.
 
-* 🤖 **Android (Chrome):** toque nos três pontinhos (`⋮`) → **Adicionar à tela inicial**
-* 🍎 **iPhone (Safari):** toque no botão de compartilhar (`□` com seta para cima) → **Adicionar à Tela de Início**
-
-Pronto! É só abrir pelo ícone e usar normalmente. Não precisa instalar nada, criar conta ou baixar arquivo nenhum.
-
-> 🔒 **Privacidade:**  
-> Os dados (treinos, refeições, medidas etc.) ficam salvos com segurança no armazenamento local do seu próprio aparelho. Se abrir em outro celular, os dados começam do zero por lá.
+Aqui a proposta é outra. Você abre, registra, e pronto. Sem login, sem servidor, sem anúncio. Os dados ficam no seu aparelho e o app funciona **mesmo sem internet** — o que importa quando a academia fica no subsolo e o sinal não chega.
 
 ---
 
-## ✨ O que o app faz
+## ✨ Funcionalidades
 
-* 📅 **Agenda semanal:** Anéis de progresso interativos (séries, volume, repetições, calorias e macros).
-* 📚 **Biblioteca de treinos:** Fichas prontas (PPL, Upper/Lower, Full Body, Core & Cardio) para combinar com seu plano pessoal.
-* ⚙️ **Editor de treinos:** Configuração detalhada de séries, repetições, carga e tempo de descanso por exercício.
-* ⏱️ **Modo de execução:** Acompanhamento de treino em tempo real com cronômetro de descanso integrado.
-* 🥗 **Nutrição e Macros:** Registro de alimentação com acompanhamento de metas de calorias e macronutrientes.
-* 💧 **Suplementação e Hidratação:** Lembretes de suplementos (creatina, whey etc.) e controle de ingestão de água.
-* 📈 **Evolução corporal:** Registro e acompanhamento de peso e medidas ao longo do tempo.
-* 🎨 **Interface moderna:** Tema escuro otimizado com cor de destaque personalizável.
+### Treino
+
+- **Biblioteca de modelos prontos** — PPL, Upper/Lower, Full Body e Core & Cardio, prontos para copiar e ajustar
+- **Editor detalhado** — séries, repetições, carga e descanso configuráveis **individualmente por série**
+- **Execução em lista** — todos os exercícios visíveis, cada série marcada conforme você a completa
+- **Coluna "anterior"** — o que você levantou da última vez, ali do lado, para saber se está progredindo
+- **Cronômetro flutuante** — arraste para onde quiser, pause, adicione 15s ou pule. Vibra e apita quando zera
+- **Progresso preservado** — saiu do app no meio do treino? O cronômetro continua e nada se perde
+
+### Inteligência
+
+- **Substituição de exercício** — máquina ocupada? O app sugere alternativas do mesmo grupo muscular, filtráveis pelo equipamento disponível
+- **Progressão de carga** — quando você bate as repetições com folga por três treinos seguidos, o app avisa que é hora de subir o peso
+- **Estimativa de calorias** — calculada por MET e peso corporal, com base nos grupos musculares trabalhados
+- **Assistente com IA** — um chat que conhece seu histórico real e ajuda com execução, progressão e organização de treino
+
+### Acompanhamento
+
+- **Resumo pós-treino** — duração, volume, séries, calorias e detalhe por exercício, com detecção de recorde de volume
+- **Nutrição e macros** — registro de refeições com metas de calorias, proteína, carboidrato e gordura
+- **Suplementos e hidratação** — marcação diária e controle de água
+- **Evolução corporal** — peso e medidas em gráficos ao longo do tempo
+- **Backup e restauração** — exporte tudo em um arquivo e recupere quando trocar de aparelho
+
+---
+
+## 📲 Instalação
+
+O Lift é um **PWA**: instala como app nativo, sem loja e sem download.
+
+| Plataforma | Como instalar |
+|---|---|
+| 🤖 **Android (Chrome)** | Menu `⋮` → **Adicionar à tela inicial** |
+| 🍎 **iPhone (Safari)** | Compartilhar `□↑` → **Adicionar à Tela de Início** |
+
+Depois de instalado, abre pelo ícone, em tela cheia e **funciona offline**.
+
+---
+
+## 🔒 Privacidade
+
+Todos os dados ficam no `localStorage` do seu navegador. Nada é enviado para servidor nenhum, porque não existe servidor.
+
+Isso tem duas consequências que vale entender:
+
+- **A favor:** ninguém além de você tem acesso ao seu histórico. Nem eu.
+- **Contra:** limpar os dados do navegador ou trocar de aparelho apaga tudo. Por isso existe o backup em **Ajustes → Backup dos seus dados** — use de vez em quando.
+
+O assistente de IA é a única parte que acessa a internet, e só quando você o utiliza. A chave de API fica salva apenas no seu dispositivo e **não é incluída no arquivo de backup**.
+
+---
+
+## 🛠️ Stack
+
+| Camada | Tecnologia |
+|---|---|
+| Interface | React 19 · Tailwind CSS 3 |
+| Build | Vite 8 · vite-plugin-pwa |
+| Rotas | React Router 7 |
+| Animação | Framer Motion |
+| Gráficos | Recharts |
+| Ícones | Lucide |
+| Dados | `localStorage` |
+
+---
+
+## 💻 Rodando localmente
+
+```bash
+git clone https://github.com/Henry-DevStack/Fit-App.git
+cd Fit-App
+npm install
+npm run dev
+```
+
+Abre em `http://localhost:5173`.
+
+| Comando | O que faz |
+|---|---|
+| `npm run dev` | Servidor de desenvolvimento |
+| `npm run build` | Build de produção em `dist/` |
+| `npm run preview` | Pré-visualiza o build |
+| `npm run lint` | Verificação de código |
+
+> O modo offline só funciona no build de produção sobre HTTPS — service workers não são registrados em `localhost` durante o desenvolvimento.
+
+---
+
+## 🗂️ Estrutura
+
+```
+src/
+├── pages/        # uma tela por arquivo
+├── components/   # UI reaproveitada
+├── lib/          # lógica pura, sem React
+└── data/         # catálogos fixos (exercícios, modelos)
+```
+
+A separação é proposital: `lib/` não sabe que React existe, então a lógica de negócio pode mudar sem tocar em nenhuma tela — e vice-versa.
+
+---
+
+## 🗺️ Próximos passos
+
+- [ ] Gráfico de progressão por exercício
+- [ ] Recordes pessoais por movimento
+- [ ] Lembrete automático de backup
+- [ ] Nova identidade visual
+
+---
+
+## 📄 Licença
+
+Todos os direitos reservados. O código está público para consulta e portfólio, mas não é livre para reuso — veja [LICENSE](./LICENSE).
+
+<div align="center">
+<sub>Feito por <a href="https://github.com/Henry-DevStack">Henry</a></sub>
+</div>

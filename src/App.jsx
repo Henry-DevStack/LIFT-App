@@ -39,7 +39,7 @@ function TabBar() {
             key={to}
             to={to}
             end={end}
-            className="relative flex flex-col items-center gap-1 px-2 py-1.5 rounded-xl2"
+            className="relative flex flex-col items-center gap-1 px-2 py-1.5 rounded-xl2 active:scale-95 transition-transform duration-100"
           >
             {isActive && (
               <motion.div
@@ -48,7 +48,10 @@ function TabBar() {
                 transition={{ type: "spring", stiffness: 500, damping: 35 }}
               />
             )}
-            <motion.div animate={{ scale: isActive ? 1.08 : 1 }} transition={{ type: "spring", stiffness: 400, damping: 20 }}>
+            <motion.div
+              animate={isActive ? { scale: [1, 1.22, 1.08], y: [0, -2, 0] } : { scale: 1, y: 0 }}
+              transition={{ type: "spring", stiffness: 400, damping: 18 }}
+            >
               <Icon size={20} strokeWidth={2} className={isActive ? "text-accent" : "text-textSecondary"} />
             </motion.div>
             <span className={`text-[9px] font-medium tracking-wide ${isActive ? "text-accent" : "text-textSecondary"}`}>
@@ -62,9 +65,9 @@ function TabBar() {
 }
 
 const pageVariants = {
-  initial: { opacity: 0, y: 12 },
-  animate: { opacity: 1, y: 0 },
-  exit: { opacity: 0, y: -8 },
+  initial: { opacity: 0, y: 14, scale: 0.985 },
+  animate: { opacity: 1, y: 0, scale: 1 },
+  exit: { opacity: 0, y: -10, scale: 0.99 },
 };
 
 function AnimatedRoutes() {

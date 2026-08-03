@@ -25,10 +25,15 @@ export default function LoginPage({ onLogin }) {
         transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
         className="w-full max-w-[340px] flex flex-col items-center"
       >
-        <div className="w-16 h-16 rounded-2xl bg-surface flex items-center justify-center mb-5">
+        <motion.div
+          initial={{ scale: 0.7, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ type: "spring", stiffness: 280, damping: 16, delay: 0.1 }}
+          className="w-16 h-16 rounded-2xl bg-surface flex items-center justify-center mb-4"
+        >
           <Dumbbell className="text-accent" size={30} />
-        </div>
-        <h1 className="font-display text-2xl font-semibold mb-1 text-center">Bem-vindo</h1>
+        </motion.div>
+        <h1 className="font-display text-3xl font-bold mb-1 text-center tracking-tight">Lift</h1>
         <p className="text-textSecondary text-sm text-center mb-8 leading-relaxed">
           Como podemos te chamar?
         </p>

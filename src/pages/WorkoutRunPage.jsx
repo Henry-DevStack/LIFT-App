@@ -25,6 +25,7 @@ import { EQUIPMENT_LABELS, suggestAlternatives } from "../data/exerciseDatabase"
 import { shouldSuggestLoadIncrease } from "../lib/gymBro";
 import { getMotivationalMessage } from "../lib/motivation";
 import ExerciseIcon from "../components/ExerciseIcon";
+import CountUp from "../components/CountUp";
 
 // Constrói o estado inicial das séries a partir do treino salvo.
 // Cada série vira uma linha editável { load, reps, done }.
@@ -391,10 +392,18 @@ export default function WorkoutRunPage() {
         </motion.div>
 
         <div className="grid grid-cols-2 gap-3 mb-5">
-          <StatCard icon={<Timer size={14} />} label="Duração" value={`${review.durationMin} min`} />
-          <StatCard icon={<Layers size={14} />} label="Séries" value={review.sets} />
-          <StatCard icon={<Dumbbell size={14} />} label="Volume total" value={`${review.volume} kg`} />
-          <StatCard icon={<Flame size={14} />} label="Calorias" value={`~${review.calories}`} />
+          <StatCard icon={<Timer size={14} />} label="Duração" value={<><CountUp value={review.durationMin} /> min</>} />
+          <StatCard icon={<Layers size={14} />} label="Séries" value={<CountUp value={review.sets} />} />
+          <StatCard
+            icon={<Dumbbell size={14} />}
+            label="Volume total"
+            value={<><CountUp value={review.volume} duration={1200} /> kg</>}
+          />
+          <StatCard
+            icon={<Flame size={14} />}
+            label="Calorias"
+            value={<>~<CountUp value={review.calories} duration={1200} /></>}
+          />
         </div>
 
         {review.isVolumeRecord && (

@@ -6,6 +6,10 @@
 // restaurar depois — é a única rede de segurança do app.
 
 const PREFIX = "fit:";
+// O formato do arquivo mudou de nome junto com o app, mas backups antigos
+// (gerados como "fit-app-backup") continuam sendo aceitos na restauração.
+const FORMAT_ID = "lift-backup";
+const LEGACY_FORMAT_IDS = ["fit-app-backup"];
 const FORMAT_VERSION = 1;
 
 // Chaves que NÃO entram no backup (nada sensível deve viajar no arquivo).
@@ -47,7 +51,7 @@ export function collectData() {
 
 export function buildBackup() {
   return {
-    format: "fit-app-backup",
+    format: FORMAT_ID,
     version: FORMAT_VERSION,
     exportedAt: new Date().toISOString(),
     data: collectData(),
@@ -66,7 +70,7 @@ export function downloadBackup() {
 
   const link = document.createElement("a");
   link.href = url;
-  link.download = `fit-app-backup-${stamp}.json`;
+  link.download = `lift-backup-${stamp}.json`;
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
@@ -82,8 +86,9 @@ export function parseBackupFile(file) {
     reader.onload = () => {
       try {
         const parsed = JSON.parse(reader.result);
-        if (parsed?.format !== "fit-app-backup" || typeof parsed.data !== "object") {
-          reject(new Error("Esse arquivo não parece ser um backup do Fit App."));
+        const validFormat = parsed?.format === FORMAT_ID || LEGACY_FORMAT_IDS.includes(parsed?.format);
+        if (!validFormat || typeof parsed.data !== "object") {
+          reject(new Error("Esse arquivo não parece ser um backup do Lift."));
           return;
         }
         resolve(parsed);
@@ -112,7 +117,7 @@ export function describeBackup(backup) {
 //  - "replace": apaga os dados atuais e usa só os do arquivo
 //  - "merge":   mantém o que existe e adiciona só as chaves ausentes
 export function restoreBackup(backup, mode = "replace") {
-  if (backup?.format !== "fit-app-backup") {
+  if (backup?.format !== FORMAT_ID && !LEGACY_FORMAT_IDS.includes(backup?.format)) {
     throw new Error("Arquivo de backup inválido.");
   }
 

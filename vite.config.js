@@ -15,8 +15,8 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.svg', 'apple-touch-icon.png'],
       manifest: {
-        name: 'Fit App',
-        short_name: 'Fit App',
+        name: 'Lift',
+        short_name: 'Lift',
         description: 'Treinos, alimentação e evolução — tudo em um só lugar.',
         start_url: '/',
         display: 'standalone',

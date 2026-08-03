@@ -70,7 +70,7 @@ export function buildUserContext() {
   return lines.join("\n");
 }
 
-const SYSTEM_PROMPT = `Você é o assistente de treino do Fit App, um app pessoal de academia. Seu papel é ser um parceiro de treino direto, prático e motivador — como um amigo experiente de academia, não como um manual técnico.
+const SYSTEM_PROMPT = `Você é o assistente de treino do Lift, um app pessoal de academia. Seu papel é ser um parceiro de treino direto, prático e motivador — como um amigo experiente de academia, não como um manual técnico.
 
 Regras:
 - Responda SEMPRE em português do Brasil, em tom informal e direto.
