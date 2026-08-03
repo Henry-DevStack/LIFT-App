@@ -17,7 +17,11 @@ import ExerciseIcon from "./ExerciseIcon";
 
 const RING_TARGETS = { sets: 20, volume: 2500, reps: 100 };
 
-export default function WeekAgenda() {
+// `showNutrition` controla o bloco de alimentação (anéis de macros e
+// lista de refeições). Fica desligado por padrão porque na tela inicial
+// ele ocupava bastante espaço sem ser usado — mas basta passar
+// `showNutrition` para trazer de volta, sem precisar reescrever nada.
+export default function WeekAgenda({ showNutrition = false }) {
   const [weekRef, setWeekRef] = useState(new Date());
   const [selected, setSelected] = useState(todayStr());
   const [workouts] = useState(() => db.getWorkouts());
@@ -27,7 +31,7 @@ export default function WeekAgenda() {
   const today = todayStr();
 
   const training = getTrainingStatsForDate(selected);
-  const nutrition = getNutritionStatsForDate(selected);
+  const nutrition = showNutrition ? getNutritionStatsForDate(selected) : null;
 
   const selectedDateObj = new Date(selected + "T00:00:00");
   const weekdayKey = DAY_KEYS[selectedDateObj.getDay()];
@@ -173,61 +177,66 @@ export default function WeekAgenda() {
         </motion.div>
       </AnimatePresence>
 
-      {/* Anéis de nutrição */}
-      <div className="flex items-center gap-2 mb-2.5">
-        <Utensils size={14} className="text-accent" />
-        <span className="text-[11px] font-medium text-textSecondary uppercase tracking-wide">Alimentação</span>
-      </div>
-      <div className="flex justify-around mb-4">
-        <ProgressRing
-          value={nutrition.calories}
-          max={profile.dailyCalorieGoal || 2200}
-          label="Calorias"
-          color="#ff6fa5"
-          size={62}
-        />
-        <ProgressRing
-          value={nutrition.protein}
-          max={profile.proteinGoal || 150}
-          label="Proteína (g)"
-          color="#c8f751"
-          size={62}
-        />
-        <ProgressRing
-          value={nutrition.carbs}
-          max={profile.carbGoal || 220}
-          label="Carbo (g)"
-          color="#5b9dff"
-          size={62}
-        />
-      </div>
+      {showNutrition && (
+        <>
+        {/* Anéis de nutrição */}
+        <div className="flex items-center gap-2 mb-2.5">
+          <Utensils size={14} className="text-accent" />
+          <span className="text-[11px] font-medium text-textSecondary uppercase tracking-wide">Alimentação</span>
+        </div>
+        <div className="flex justify-around mb-4">
+          <ProgressRing
+            value={nutrition.calories}
+            max={profile.dailyCalorieGoal || 2200}
+            label="Calorias"
+            color="#ff6fa5"
+            size={62}
+          />
+          <ProgressRing
+            value={nutrition.protein}
+            max={profile.proteinGoal || 150}
+            label="Proteína (g)"
+            color="#c8f751"
+            size={62}
+          />
+          <ProgressRing
+            value={nutrition.carbs}
+            max={profile.carbGoal || 220}
+            label="Carbo (g)"
+            color="#5b9dff"
+            size={62}
+          />
+        </div>
 
-      <AnimatePresence mode="wait">
-        <motion.div key={selected + "-nutrition"} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2 }}>
-          {nutrition.meals.length > 0 ? (
-            <div className="flex flex-col gap-2">
-              {nutrition.meals.map((m) => (
-                <div key={m.id} className="bg-surface2 rounded-xl2 p-3 flex items-center justify-between">
-                  <p className="text-xs font-medium">{m.name}</p>
-                  <p className="text-textSecondary text-[10px] num">
-                    {m.calories}kcal · {m.protein || 0}P {m.carbs || 0}C {m.fat || 0}F
-                  </p>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <p className="text-textSecondary/60 text-xs text-center py-2">
-              {selected === today ? (
-                <Link to="/alimentacao" className="text-accent font-medium">
-                  Registrar primeira refeição do dia →
-                </Link>
-              ) : (
-                "Nenhuma refeição registrada nesse dia."
-              )}
-            </p>
-          )}
-        </motion.div>
-      </AnimatePresence>
+        <AnimatePresence mode="wait">
+          <motion.div key={selected + "-nutrition"} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2 }}>
+            {nutrition.meals.length > 0 ? (
+              <div className="flex flex-col gap-2">
+                {nutrition.meals.map((m) => (
+                  <div key={m.id} className="bg-surface2 rounded-xl2 p-3 flex items-center justify-between">
+                    <p className="text-xs font-medium">{m.name}</p>
+                    <p className="text-textSecondary text-[10px] num">
+                      {m.calories}kcal · {m.protein || 0}P {m.carbs || 0}C {m.fat || 0}F
+                    </p>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-textSecondary/60 text-xs text-center py-2">
+                {selected === today ? (
+                  <Link to="/alimentacao" className="text-accent font-medium">
+                    Registrar primeira refeição do dia →
+                  </Link>
+                ) : (
+                  "Nenhuma refeição registrada nesse dia."
+                )}
+              </p>
+            )}
+          </motion.div>
+        </AnimatePresence>
+        </>
+      )}
+
     </div>
   );
 }
