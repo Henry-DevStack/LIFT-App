@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Library, ChevronRight, Flame, Play } from "lucide-react";
+import { Library, ChevronRight, Flame } from "lucide-react";
 import { db } from "../lib/storage";
 import { getTrainingStatsForDate, todayStr } from "../lib/stats";
 import WeekAgenda from "../components/WeekAgenda";
@@ -10,12 +10,10 @@ import SupplementsWidget from "../components/SupplementsWidget";
 export default function HomePage() {
   const [profile, setProfile] = useState(db.getProfile());
   const [measurements, setMeasurements] = useState([]);
-  const [activeSession, setActiveSession] = useState(null);
 
   useEffect(() => {
     setProfile(db.getProfile());
     setMeasurements(db.getMeasurements());
-    setActiveSession(db.getActiveSession());
   }, []);
 
   const lastMeasurement = measurements[0];
@@ -29,34 +27,6 @@ export default function HomePage() {
       <h1 className="font-display text-2xl font-semibold mt-1 mb-6">
         {profile.name ? `Olá, ${profile.name.split(" ")[0]}` : "Olá 👋"}
       </h1>
-
-      {/* Treino em andamento — o progresso fica salvo mesmo saindo do app */}
-      {activeSession && (
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
-          className="mb-4"
-        >
-          <Link
-            to={`/treinos/${activeSession.workoutId}/executar`}
-            className="flex items-center justify-between bg-accent/10 border border-accent/40 rounded-xl2 p-4"
-          >
-            <div className="flex items-center gap-3 min-w-0">
-              <div className="w-10 h-10 rounded-xl2 bg-accent/20 flex items-center justify-center shrink-0">
-                <Play size={16} className="text-accent" fill="currentColor" />
-              </div>
-              <div className="min-w-0">
-                <p className="font-display font-semibold text-sm truncate">Treino em andamento</p>
-                <p className="text-textSecondary text-xs mt-0.5 truncate">
-                  {activeSession.workoutName} — toque pra continuar
-                </p>
-              </div>
-            </div>
-            <ChevronRight size={18} className="text-accent shrink-0" />
-          </Link>
-        </motion.div>
-      )}
 
       {/* Agenda semanal com anéis de treino e alimentação */}
       <motion.div

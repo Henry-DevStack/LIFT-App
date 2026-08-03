@@ -12,7 +12,11 @@ import ProfilePage from "./pages/ProfilePage";
 import SettingsPage from "./pages/SettingsPage";
 import LoginPage from "./pages/LoginPage";
 import ChatPage from "./pages/ChatPage";
+import ActiveWorkoutBar from "./components/ActiveWorkoutBar";
+import OfflineIndicator from "./components/OfflineIndicator";
+import WelcomeTour from "./components/WelcomeTour";
 import { auth } from "./lib/auth";
+import { db } from "./lib/storage";
 import { initTheme } from "./lib/theme";
 
 const tabs = [
@@ -105,28 +109,47 @@ function Shell() {
   return (
     <div className={`min-h-screen bg-bg text-textPrimary font-body ${hideTabBar ? "" : "pb-24"}`}>
       <AnimatedRoutes />
-      {!hideTabBar && <TabBar />}
+      {!hideTabBar && (
+        <>
+          <ActiveWorkoutBar />
+          <TabBar />
+        </>
+      )}
     </div>
   );
 }
 
 export default function App() {
   const [loggedIn, setLoggedIn] = useState(auth.isLoggedIn());
+  const [showTour, setShowTour] = useState(() => auth.isLoggedIn() && !db.hasSeenTour());
 
   useEffect(() => {
     initTheme();
   }, []);
 
+  function finishTour() {
+    db.markTourSeen();
+    setShowTour(false);
+  }
+
   if (!loggedIn) {
     return (
       <div className="min-h-screen bg-bg text-textPrimary font-body">
-        <LoginPage onLogin={() => setLoggedIn(true)} />
+        <LoginPage
+          onLogin={() => {
+            setLoggedIn(true);
+            // Quem acabou de entrar pela primeira vez vê o tour em seguida.
+            if (!db.hasSeenTour()) setShowTour(true);
+          }}
+        />
       </div>
     );
   }
 
   return (
     <HashRouter>
+      <OfflineIndicator />
+      {showTour && <WelcomeTour onFinish={finishTour} />}
       <Shell />
     </HashRouter>
   );

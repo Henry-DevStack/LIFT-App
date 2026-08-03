@@ -16,6 +16,7 @@ const KEYS = {
   ACTIVE_SESSION: "fit:active_session",
   CHAT_CONFIG: "fit:chat_config",
   CHAT_HISTORY: "fit:chat_history",
+  TOUR_SEEN: "fit:tour_seen",
 };
 
 function read(key, fallback) {
@@ -185,6 +186,13 @@ export const db = {
     }
     return null;
   },
+
+  // ---- Tour de boas-vindas ----
+  // Marca se a pessoa já viu a apresentação inicial. Fica fora do backup
+  // por ser específico do dispositivo, não um dado do usuário.
+  hasSeenTour: () => localStorage.getItem(KEYS.TOUR_SEEN) === "1",
+  markTourSeen: () => localStorage.setItem(KEYS.TOUR_SEEN, "1"),
+  resetTour: () => localStorage.removeItem(KEYS.TOUR_SEEN),
 
   // ---- Chat / assistente ----
   getChatConfig: () => read(KEYS.CHAT_CONFIG, { apiKey: "", model: "claude-sonnet-4-6" }),

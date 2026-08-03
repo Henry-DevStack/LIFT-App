@@ -13,6 +13,7 @@ import {
   Pause,
   SkipForward,
   GripHorizontal,
+  ChevronDown,
   Trophy,
   Dumbbell,
   Layers,
@@ -38,6 +39,42 @@ function buildSetRows(exercises) {
     }));
   });
   return rows;
+}
+
+// Avisa que o descanso acabou: vibra o aparelho e toca um bipe curto.
+// Ambos são "melhor esforço" — se o navegador ou o dispositivo não
+// suportar (iOS não expõe a API de vibração, por exemplo), simplesmente
+// não acontece nada, sem quebrar o app.
+function notifyRestOver() {
+  try {
+    if (typeof navigator !== "undefined" && navigator.vibrate) {
+      // Padrão curto-pausa-curto: chama atenção sem assustar.
+      navigator.vibrate([180, 90, 180]);
+    }
+  } catch {
+    // dispositivo sem suporte a vibração
+  }
+
+  try {
+    const Ctx = window.AudioContext || window.webkitAudioContext;
+    if (!Ctx) return;
+    const ctx = new Ctx();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = "sine";
+    osc.frequency.value = 880;
+    // Sobe e desce o volume pra não estalar no início e no fim.
+    gain.gain.setValueAtTime(0, ctx.currentTime);
+    gain.gain.linearRampToValueAtTime(0.25, ctx.currentTime + 0.02);
+    gain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.35);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start();
+    osc.stop(ctx.currentTime + 0.36);
+    osc.onended = () => ctx.close();
+  } catch {
+    // navegador bloqueou áudio sem interação — tudo bem, a vibração já avisou
+  }
 }
 
 export default function WorkoutRunPage() {
@@ -110,6 +147,7 @@ export default function WorkoutRunPage() {
     if (!restActive || restPaused) return;
     if (restLeft <= 0) {
       setRestActive(false);
+      notifyRestOver();
       return;
     }
     const t = setTimeout(() => setRestLeft((s) => s - 1), 1000);
@@ -144,22 +182,6 @@ export default function WorkoutRunPage() {
         setRestActive(true);
       }
     }
-  }
-
-  function addSet(exId) {
-    setSetRows((prev) => {
-      const rows = [...(prev[exId] || [])];
-      const last = rows[rows.length - 1];
-      rows.push({ load: last?.load ?? "", reps: last?.reps ?? "", done: false });
-      return { ...prev, [exId]: rows };
-    });
-  }
-
-  function removeSet(exId, index) {
-    setSetRows((prev) => {
-      const rows = (prev[exId] || []).filter((_, i) => i !== index);
-      return { ...prev, [exId]: rows.length ? rows : prev[exId] };
-    });
   }
 
   function swapExercise(exId, altName) {
@@ -315,8 +337,11 @@ export default function WorkoutRunPage() {
   }
 
   function handleExit() {
-    // O progresso já está salvo automaticamente — só avisa e sai.
-    navigate("/treinos");
+    // Sair NÃO interrompe o treino: o progresso e o horário de início já
+    // estão salvos, então o cronômetro continua contando normalmente. Uma
+    // barra flutuante (ActiveWorkoutBar) fica visível no resto do app pra
+    // voltar pra cá a qualquer momento.
+    navigate("/");
   }
 
   function discardSession() {
@@ -438,8 +463,13 @@ export default function WorkoutRunPage() {
       {/* Cabeçalho fixo com duração e progresso */}
       <div className="sticky top-0 z-20 bg-bg/95 backdrop-blur px-5 pt-6 pb-3 border-b border-border">
         <div className="flex items-center justify-between mb-2">
-          <motion.button whileTap={{ scale: 0.9 }} onClick={handleExit} className="text-textSecondary">
-            <X size={22} />
+          <motion.button
+            whileTap={{ scale: 0.9 }}
+            onClick={handleExit}
+            className="text-textSecondary flex items-center gap-1"
+            title="Voltar ao app — o treino continua rodando"
+          >
+            <ChevronDown size={22} />
           </motion.button>
           <div className="text-center">
             <p className="font-display font-semibold text-sm leading-tight truncate max-w-[200px]">{workout.name}</p>
@@ -551,7 +581,6 @@ export default function WorkoutRunPage() {
                     <motion.div
                       key={si}
                       layout
-                      onDoubleClick={() => rows.length > 1 && removeSet(ex.id, si)}
                       className={`grid grid-cols-[28px_1fr_1fr_1fr_32px] gap-1.5 items-center rounded-lg px-0.5 py-1 transition-colors ${
                         row.done ? "bg-accent/10" : ""
                       }`}
@@ -590,13 +619,6 @@ export default function WorkoutRunPage() {
                   );
                 })}
               </div>
-
-              <button
-                onClick={() => addSet(ex.id)}
-                className="w-full mt-2 border border-dashed border-border text-textSecondary rounded-lg py-1.5 text-[11px] font-medium"
-              >
-                + Adicionar série
-              </button>
             </motion.div>
           );
         })}
