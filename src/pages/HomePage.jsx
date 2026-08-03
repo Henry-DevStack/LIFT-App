@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Flame } from "lucide-react";
+import { Flame, Settings } from "lucide-react";
 import { db } from "../lib/storage";
 import { getTrainingStatsForDate } from "../lib/stats";
 import useToday from "../hooks/useToday";
@@ -24,12 +24,27 @@ export default function HomePage() {
 
   return (
     <div className="px-5 pt-6">
-      <p className="text-textSecondary text-sm">
-        {new Date().toLocaleDateString("pt-BR", { weekday: "long", day: "numeric", month: "long" })}
-      </p>
-      <h1 className="font-display text-2xl font-semibold mt-1 mb-6">
-        {profile.name ? `Olá, ${profile.name.split(" ")[0]}` : "Olá 👋"}
-      </h1>
+      {/* Ajustes saiu da barra inferior: fica só aqui, o que deixa a
+          navegação principal com menos itens e mais respiro. */}
+      <div className="flex items-start justify-between mb-6">
+        <div className="min-w-0">
+          <p className="text-textSecondary text-sm">
+            {new Date().toLocaleDateString("pt-BR", { weekday: "long", day: "numeric", month: "long" })}
+          </p>
+          <h1 className="font-display text-2xl font-semibold mt-1">
+            {profile.name ? `Olá, ${profile.name.split(" ")[0]}` : "Olá 👋"}
+          </h1>
+        </div>
+        <motion.div whileTap={{ scale: 0.9 }} className="shrink-0 mt-1">
+          <Link
+            to="/config"
+            className="w-10 h-10 rounded-full bg-surface border border-border flex items-center justify-center"
+            aria-label="Configurações"
+          >
+            <Settings size={18} className="text-textSecondary" />
+          </Link>
+        </motion.div>
+      </div>
 
       {/* Treino de hoje — some sozinho em dias sem treino agendado */}
       <div className="mb-4">

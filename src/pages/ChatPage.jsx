@@ -89,7 +89,7 @@ export default function ChatPage() {
             O assistente usa a API da Anthropic. Adicione sua chave em Ajustes para começar a conversar.
           </p>
           <Link
-            to="/config"
+            to="/config/assistente"
             className="inline-flex items-center gap-1.5 bg-accent text-bg text-xs font-semibold px-3.5 py-2 rounded-lg"
           >
             Ir para Ajustes

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { HashRouter, Routes, Route, NavLink, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import { Home, Dumbbell, Utensils, TrendingUp, Sparkles, Settings } from "lucide-react";
+import { Home, Dumbbell, Utensils, TrendingUp, Sparkles } from "lucide-react";
 import HomePage from "./pages/HomePage";
 import WorkoutsPage from "./pages/WorkoutsPage";
 import WorkoutEditorPage from "./pages/WorkoutEditorPage";
@@ -12,6 +12,11 @@ import ProfilePage from "./pages/ProfilePage";
 import SettingsPage from "./pages/SettingsPage";
 import LoginPage from "./pages/LoginPage";
 import ChatPage from "./pages/ChatPage";
+import AccountSettings from "./pages/settings/AccountSettings";
+import AppearanceSettings from "./pages/settings/AppearanceSettings";
+import SupplementsSettings from "./pages/settings/SupplementsSettings";
+import AssistantSettings from "./pages/settings/AssistantSettings";
+import BackupSettings from "./pages/settings/BackupSettings";
 import ActiveWorkoutBar from "./components/ActiveWorkoutBar";
 import OfflineIndicator from "./components/OfflineIndicator";
 import WelcomeTour from "./components/WelcomeTour";
@@ -25,7 +30,6 @@ const tabs = [
   { to: "/alimentacao", icon: Utensils, label: "Alimentação" },
   { to: "/evolucao", icon: TrendingUp, label: "Evolução" },
   { to: "/assistente", icon: Sparkles, label: "Assistente" },
-  { to: "/config", icon: Settings, label: "Ajustes" },
 ];
 
 function TabBar() {
@@ -85,6 +89,11 @@ function AnimatedRoutes() {
         <Route path="/assistente" element={<Page><ChatPage /></Page>} />
         <Route path="/perfil" element={<Page><ProfilePage /></Page>} />
         <Route path="/config" element={<Page><SettingsPage /></Page>} />
+        <Route path="/config/conta" element={<Page><AccountSettings /></Page>} />
+        <Route path="/config/aparencia" element={<Page><AppearanceSettings /></Page>} />
+        <Route path="/config/suplementos" element={<Page><SupplementsSettings /></Page>} />
+        <Route path="/config/assistente" element={<Page><AssistantSettings /></Page>} />
+        <Route path="/config/backup" element={<Page><BackupSettings /></Page>} />
       </Routes>
     </AnimatePresence>
   );
@@ -108,7 +117,12 @@ function Page({ children, fade }) {
 // série" na execução do treino. Aqui ela some nessa tela específica.
 function Shell() {
   const location = useLocation();
-  const hideTabBar = /^\/treinos\/[^/]+\/executar$/.test(location.pathname);
+  // A barra inferior some na execução do treino (onde cobria o botão de
+  // ação) e nas telas de configuração, que têm navegação própria de voltar.
+  const hideTabBar =
+    /^\/treinos\/[^/]+\/executar$/.test(location.pathname) ||
+    location.pathname.startsWith("/config") ||
+    location.pathname === "/perfil";
   return (
     <div className={`min-h-screen bg-bg text-textPrimary font-body ${hideTabBar ? "" : "pb-24"}`}>
       <AnimatedRoutes />

@@ -1,453 +1,111 @@
-import { useEffect, useRef, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
-import { Check, LogOut, Palette, Pill, Plus, Trash2, Droplets, Sparkles, Eye, EyeOff, User, Download, Upload, ShieldCheck, AlertTriangle, PlayCircle } from "lucide-react";
-import { db, uid } from "../lib/storage";
-import { downloadBackup, parseBackupFile, restoreBackup, describeBackup } from "../lib/backup";
-import { auth } from "../lib/auth";
-import { ACCENT_PRESETS, setAccent } from "../lib/theme";
+import { Link, useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Palette,
+  Pill,
+  ShieldCheck,
+  Sparkles,
+  UserCircle,
+} from "lucide-react";
+import { db } from "../lib/storage";
 
-function emptySupplement() {
-  return { name: "", dose: "" };
-}
+// Menu de configurações. Antes tudo vivia numa página só, que ficou longa
+// demais pra encontrar qualquer coisa. Agora cada assunto tem sua própria
+// tela e aqui fica só a porta de entrada.
+const ITEMS = [
+  {
+    to: "/config/conta",
+    icon: UserCircle,
+    title: "Conta",
+    desc: "Nome, metas e sair do app",
+  },
+  {
+    to: "/config/aparencia",
+    icon: Palette,
+    title: "Aparência",
+    desc: "Cor de destaque do app",
+  },
+  {
+    to: "/config/suplementos",
+    icon: Pill,
+    title: "Suplementos e água",
+    desc: "Lembretes diários e meta de hidratação",
+  },
+  {
+    to: "/config/assistente",
+    icon: Sparkles,
+    title: "Assistente de treino",
+    desc: "Chave da API e modelo",
+  },
+  {
+    to: "/config/backup",
+    icon: ShieldCheck,
+    title: "Backup dos dados",
+    desc: "Exportar e restaurar seu histórico",
+  },
+];
 
 export default function SettingsPage() {
   const navigate = useNavigate();
-  const [profile, setProfile] = useState(db.getProfile());
-  const [theme, setTheme] = useState(db.getTheme());
-  const [saved, setSaved] = useState(false);
-  const [supplements, setSupplements] = useState(db.getSupplements());
-  const [newSupplement, setNewSupplement] = useState(emptySupplement());
-  const [chatConfig, setChatConfig] = useState(db.getChatConfig());
-  const [showKey, setShowKey] = useState(false);
-  const [keySaved, setKeySaved] = useState(false);
-  const [pendingBackup, setPendingBackup] = useState(null);
-  const [backupMsg, setBackupMsg] = useState(null);
-  const fileInputRef = useRef(null);
-
-  useEffect(() => {
-    if (keySaved) {
-      const t = setTimeout(() => setKeySaved(false), 1500);
-      return () => clearTimeout(t);
-    }
-  }, [keySaved]);
-
-  function handleSaveChatConfig() {
-    db.saveChatConfig(chatConfig);
-    setKeySaved(true);
-  }
-
-  // ---- Backup e restauração ----
-  function handleExport() {
-    try {
-      downloadBackup();
-      setBackupMsg({ type: "ok", text: "Backup baixado! Guarde esse arquivo em um lugar seguro." });
-    } catch {
-      setBackupMsg({ type: "erro", text: "Não consegui gerar o backup." });
-    }
-  }
-
-  async function handlePickFile(e) {
-    const file = e.target.files?.[0];
-    e.target.value = ""; // permite escolher o mesmo arquivo de novo
-    if (!file) return;
-    try {
-      const parsed = await parseBackupFile(file);
-      setPendingBackup(parsed);
-      setBackupMsg(null);
-    } catch (err) {
-      setPendingBackup(null);
-      setBackupMsg({ type: "erro", text: err.message });
-    }
-  }
-
-  function handleRestore(mode) {
-    const aviso =
-      mode === "replace"
-        ? "Isso vai APAGAR os dados atuais deste dispositivo e colocar os do arquivo no lugar. Continuar?"
-        : "Isso vai manter seus dados atuais e preencher só o que estiver faltando. Continuar?";
-    if (!confirm(aviso)) return;
-    try {
-      restoreBackup(pendingBackup, mode);
-      setPendingBackup(null);
-      alert("Dados restaurados! O app vai recarregar.");
-      window.location.reload();
-    } catch (err) {
-      setBackupMsg({ type: "erro", text: err.message });
-    }
-  }
-
-  useEffect(() => {
-    if (saved) {
-      const t = setTimeout(() => setSaved(false), 1500);
-      return () => clearTimeout(t);
-    }
-  }, [saved]);
-
-  function handlePickColor(hex) {
-    const next = setAccent(hex);
-    setTheme(next);
-  }
-
-  function handleSaveName() {
-    db.saveProfile(profile);
-    setSaved(true);
-  }
-
-  function handleAddSupplement() {
-    if (!newSupplement.name.trim()) return;
-    setSupplements(db.saveSupplement({ id: uid(), ...newSupplement }));
-    setNewSupplement(emptySupplement());
-  }
-
-  function handleDeleteSupplement(id) {
-    setSupplements(db.deleteSupplement(id));
-  }
-
-  function handleLogout() {
-    if (confirm("Sair do app? Seus dados continuam salvos neste dispositivo.")) {
-      auth.logout();
-      navigate("/", { replace: true });
-      window.location.reload();
-    }
-  }
+  const profile = db.getProfile();
 
   return (
     <div className="px-5 pt-6 pb-4">
-      <h1 className="font-display text-2xl font-semibold mb-5">Configurações</h1>
-
-      <div className="flex flex-col gap-5">
-        {/* Tema */}
-        <div className="bg-surface border border-border rounded-xl2 p-4">
-          <div className="flex items-center gap-2 mb-3">
-            <Palette size={16} className="text-accent" />
-            <span className="text-xs font-medium text-textSecondary uppercase tracking-wide">
-              Cor do app
-            </span>
-          </div>
-          <div className="flex flex-wrap gap-3 mb-3">
-            {ACCENT_PRESETS.map((preset) => (
-              <motion.button
-                key={preset.hex}
-                whileTap={{ scale: 0.9 }}
-                onClick={() => handlePickColor(preset.hex)}
-                className="w-9 h-9 rounded-full flex items-center justify-center border-2 transition-colors"
-                style={{
-                  backgroundColor: preset.hex,
-                  borderColor: theme.accent === preset.hex ? "#fff" : "transparent",
-                }}
-                aria-label={preset.name}
-              >
-                {theme.accent === preset.hex && <Check size={16} className="text-black/70" />}
-              </motion.button>
-            ))}
-            <label className="w-9 h-9 rounded-full border border-dashed border-border flex items-center justify-center text-textSecondary text-[9px] cursor-pointer overflow-hidden relative">
-              +
-              <input
-                type="color"
-                value={theme.accent}
-                onChange={(e) => handlePickColor(e.target.value)}
-                className="absolute inset-0 opacity-0 cursor-pointer"
-              />
-            </label>
-          </div>
-          <p className="text-textSecondary/60 text-[11px] leading-relaxed">
-            Escolha a cor de destaque usada nos botões, gráficos e ícones ativos do app.
-          </p>
-        </div>
-
-        {/* Suplementos e lembretes */}
-        <div className="bg-surface border border-border rounded-xl2 p-4">
-          <div className="flex items-center gap-2 mb-3">
-            <Pill size={16} className="text-accent" />
-            <span className="text-xs font-medium text-textSecondary uppercase tracking-wide">
-              Suplementos e lembretes
-            </span>
-          </div>
-
-          <div className="flex flex-col gap-2 mb-3">
-            <AnimatePresence initial={false}>
-              {supplements.map((s) => (
-                <motion.div
-                  key={s.id}
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: "auto" }}
-                  exit={{ opacity: 0, height: 0 }}
-                  className="flex items-center justify-between bg-surface2 rounded-xl2 px-3.5 py-2.5 overflow-hidden"
-                >
-                  <div>
-                    <p className="text-sm font-medium">{s.name}</p>
-                    {s.dose && <p className="text-textSecondary text-[10px]">{s.dose}</p>}
-                  </div>
-                  <button onClick={() => handleDeleteSupplement(s.id)} className="text-textSecondary hover:text-red-400 p-1">
-                    <Trash2 size={14} />
-                  </button>
-                </motion.div>
-              ))}
-            </AnimatePresence>
-            {supplements.length === 0 && (
-              <p className="text-textSecondary/60 text-[11px] leading-relaxed">
-                Nenhum lembrete ainda. Adicione creatina, whey, vitaminas ou o que quiser acompanhar todo dia.
-              </p>
-            )}
-          </div>
-
-          <div className="flex gap-2">
-            <input
-              value={newSupplement.name}
-              onChange={(e) => setNewSupplement((s) => ({ ...s, name: e.target.value }))}
-              placeholder="Ex: Creatina"
-              className="flex-1 min-w-0 bg-surface2 border border-border rounded-lg px-3 py-2 text-sm placeholder:text-textSecondary focus:outline-none focus:ring-1 focus:ring-accent"
-            />
-            <input
-              value={newSupplement.dose}
-              onChange={(e) => setNewSupplement((s) => ({ ...s, dose: e.target.value }))}
-              placeholder="Dose (opcional)"
-              className="w-28 shrink-0 bg-surface2 border border-border rounded-lg px-3 py-2 text-sm placeholder:text-textSecondary focus:outline-none focus:ring-1 focus:ring-accent"
-            />
-            <motion.button
-              whileTap={{ scale: 0.9 }}
-              onClick={handleAddSupplement}
-              className="shrink-0 w-10 h-10 rounded-lg bg-accent text-bg flex items-center justify-center"
-            >
-              <Plus size={16} strokeWidth={2.5} />
-            </motion.button>
-          </div>
-        </div>
-
-        {/* Meta de água */}
-        <div className="bg-surface border border-border rounded-xl2 p-4">
-          <div className="flex items-center gap-2 mb-3">
-            <Droplets size={16} className="text-accent" />
-            <span className="text-xs font-medium text-textSecondary uppercase tracking-wide">
-              Meta diária de água
-            </span>
-          </div>
-          <div className="flex items-center gap-2">
-            <input
-              type="number"
-              value={profile.waterGoalMl}
-              onChange={(e) => setProfile((p) => ({ ...p, waterGoalMl: e.target.value }))}
-              className="num flex-1 bg-surface2 border border-border rounded-xl2 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
-            />
-            <span className="text-textSecondary text-sm">ml</span>
-          </div>
-        </div>
-
-        {/* Backup dos dados */}
-        <div className="bg-surface border border-border rounded-xl2 p-4">
-          <div className="flex items-center gap-2 mb-3">
-            <ShieldCheck size={16} className="text-accent" />
-            <span className="text-xs font-medium text-textSecondary uppercase tracking-wide">
-              Backup dos seus dados
-            </span>
-          </div>
-
-          <div className="bg-surface2 rounded-xl2 p-3 mb-3 flex items-start gap-2">
-            <AlertTriangle size={14} className="text-accent shrink-0 mt-0.5" />
-            <p className="text-textSecondary text-[11px] leading-relaxed">
-              Seus treinos, histórico e medidas ficam salvos apenas neste navegador. Limpar os dados do navegador,
-              trocar de aparelho ou reinstalar o app apaga tudo. Baixe um backup de vez em quando.
-            </p>
-          </div>
-
-          <div className="flex gap-2 mb-3">
-            <motion.button
-              whileTap={{ scale: 0.97 }}
-              onClick={handleExport}
-              className="flex-1 bg-accent text-bg font-semibold py-3 rounded-xl2 flex items-center justify-center gap-2 text-sm"
-            >
-              <Download size={16} />
-              Baixar backup
-            </motion.button>
-            <motion.button
-              whileTap={{ scale: 0.97 }}
-              onClick={() => fileInputRef.current?.click()}
-              className="flex-1 border border-border text-textPrimary font-medium py-3 rounded-xl2 flex items-center justify-center gap-2 text-sm"
-            >
-              <Upload size={16} />
-              Restaurar
-            </motion.button>
-          </div>
-
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept="application/json,.json"
-            onChange={handlePickFile}
-            className="hidden"
-          />
-
-          {/* Prévia do arquivo escolhido, antes de confirmar */}
-          <AnimatePresence>
-            {pendingBackup && (
-              <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: "auto" }}
-                exit={{ opacity: 0, height: 0 }}
-                className="bg-surface2 rounded-xl2 p-3 mb-3 overflow-hidden"
-              >
-                <p className="text-xs font-medium mb-1">Backup encontrado</p>
-                <p className="text-textSecondary text-[10px] mb-2">
-                  Gerado em {new Date(pendingBackup.exportedAt).toLocaleString("pt-BR")}
-                </p>
-                <ul className="text-textSecondary text-[10px] leading-relaxed mb-3 list-disc list-inside">
-                  {describeBackup(pendingBackup).map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => handleRestore("replace")}
-                    className="flex-1 bg-accent text-bg text-xs font-semibold py-2.5 rounded-lg"
-                  >
-                    Substituir tudo
-                  </button>
-                  <button
-                    onClick={() => handleRestore("merge")}
-                    className="flex-1 border border-border text-textSecondary text-xs font-medium py-2.5 rounded-lg"
-                  >
-                    Só completar
-                  </button>
-                  <button
-                    onClick={() => setPendingBackup(null)}
-                    className="px-3 text-textSecondary text-xs"
-                  >
-                    Cancelar
-                  </button>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-
-          {backupMsg && (
-            <p
-              className={`text-[11px] leading-relaxed ${
-                backupMsg.type === "erro" ? "text-red-400" : "text-accent"
-              }`}
-            >
-              {backupMsg.text}
-            </p>
-          )}
-
-          <p className="text-textSecondary/60 text-[10px] leading-relaxed mt-2">
-            O arquivo de backup não inclui a chave da API — ela nunca sai deste dispositivo.
-          </p>
-        </div>
-
-        {/* Assistente de IA */}
-        <div className="bg-surface border border-border rounded-xl2 p-4">
-          <div className="flex items-center gap-2 mb-3">
-            <Sparkles size={16} className="text-accent" />
-            <span className="text-xs font-medium text-textSecondary uppercase tracking-wide">
-              Assistente de treino
-            </span>
-          </div>
-
-          <label className="text-xs text-textSecondary block mb-1.5">Chave da API Anthropic</label>
-          <div className="flex gap-2 mb-2">
-            <input
-              type={showKey ? "text" : "password"}
-              value={chatConfig.apiKey}
-              onChange={(e) => setChatConfig((c) => ({ ...c, apiKey: e.target.value }))}
-              placeholder="sk-ant-..."
-              autoComplete="off"
-              spellCheck={false}
-              className="flex-1 min-w-0 bg-surface2 border border-border rounded-xl2 px-4 py-3 text-sm placeholder:text-textSecondary focus:outline-none focus:ring-2 focus:ring-accent"
-            />
-            <button
-              onClick={() => setShowKey((v) => !v)}
-              className="shrink-0 w-11 rounded-xl2 bg-surface2 border border-border flex items-center justify-center text-textSecondary"
-              aria-label={showKey ? "Ocultar chave" : "Mostrar chave"}
-            >
-              {showKey ? <EyeOff size={16} /> : <Eye size={16} />}
-            </button>
-          </div>
-
-          <label className="text-xs text-textSecondary block mb-1.5">Modelo</label>
-          <input
-            value={chatConfig.model}
-            onChange={(e) => setChatConfig((c) => ({ ...c, model: e.target.value }))}
-            placeholder="claude-sonnet-4-6"
-            className="w-full bg-surface2 border border-border rounded-xl2 px-4 py-3 text-sm mb-3 focus:outline-none focus:ring-2 focus:ring-accent"
-          />
-
-          <button
-            onClick={handleSaveChatConfig}
-            className="w-full bg-accent text-bg font-semibold py-3 rounded-xl2 flex items-center justify-center gap-2 active:scale-[0.98] transition-transform mb-3"
-          >
-            {keySaved ? (
-              <>
-                <Check size={16} />
-                Salvo!
-              </>
-            ) : (
-              "Salvar chave"
-            )}
-          </button>
-
-          <p className="text-textSecondary/70 text-[11px] leading-relaxed">
-            <span className="text-red-400/90 font-medium">Atenção:</span> como o app não tem servidor próprio, a chave
-            fica salva no navegador deste dispositivo e é enviada direto para a API. Isso é seguro o bastante para uso
-            pessoal, mas não publique o app com sua chave configurada — qualquer pessoa com acesso ao aparelho
-            conseguiria lê-la.
-          </p>
-        </div>
-
-        {/* Conta */}
-        <div className="bg-surface border border-border rounded-xl2 p-4">
-          <span className="text-xs font-medium text-textSecondary uppercase tracking-wide block mb-3">
-            Conta
-          </span>
-          <label className="text-xs text-textSecondary block mb-1.5">Seu nome</label>
-          <input
-            value={profile.name}
-            onChange={(e) => setProfile((p) => ({ ...p, name: e.target.value }))}
-            className="w-full bg-surface2 border border-border rounded-xl2 px-4 py-3 text-sm mb-3 focus:outline-none focus:ring-2 focus:ring-accent"
-          />
-          <button
-            onClick={handleSaveName}
-            className="w-full bg-accent text-bg font-semibold py-3 rounded-xl2 flex items-center justify-center gap-2 active:scale-[0.98] transition-transform mb-3"
-          >
-            {saved ? (
-              <>
-                <Check size={16} />
-                Salvo!
-              </>
-            ) : (
-              "Salvar alterações"
-            )}
-          </button>
-
-          <Link
-            to="/perfil"
-            className="w-full border border-border text-textSecondary font-medium py-3 rounded-xl2 flex items-center justify-center gap-2 text-sm mb-2"
-          >
-            <User size={15} />
-            Perfil completo e metas
-          </Link>
-
-          <button
-            onClick={() => {
-              db.resetTour();
-              window.location.reload();
-            }}
-            className="w-full border border-border text-textSecondary font-medium py-3 rounded-xl2 flex items-center justify-center gap-2 text-sm"
-          >
-            <PlayCircle size={15} />
-            Rever apresentação do app
-          </button>
-        </div>
-
+      <div className="flex items-center gap-2 mb-6">
         <motion.button
-          whileTap={{ scale: 0.98 }}
-          onClick={handleLogout}
-          className="w-full flex items-center justify-center gap-2 border border-border text-textSecondary font-medium py-3.5 rounded-xl2"
+          whileTap={{ scale: 0.9 }}
+          onClick={() => navigate("/")}
+          className="text-textSecondary -ml-1.5 p-1.5"
+          aria-label="Voltar para o início"
         >
-          <LogOut size={16} />
-          Sair
+          <ChevronLeft size={22} />
         </motion.button>
+        <h1 className="font-display text-2xl font-semibold">Configurações</h1>
       </div>
+
+      {profile.name && (
+        <div className="flex items-center gap-3 bg-surface border border-border rounded-xl2 p-4 mb-4">
+          <div className="w-11 h-11 rounded-full bg-accent/15 flex items-center justify-center shrink-0">
+            <span className="font-display font-bold text-accent text-lg">
+              {profile.name.trim()[0]?.toUpperCase()}
+            </span>
+          </div>
+          <div className="min-w-0">
+            <p className="font-display font-semibold text-sm truncate">{profile.name}</p>
+            <p className="text-textSecondary text-[11px]">Dados salvos neste dispositivo</p>
+          </div>
+        </div>
+      )}
+
+      <div className="flex flex-col gap-2">
+        {ITEMS.map(({ to, icon: Icon, title, desc }, i) => (
+          <motion.div
+            key={to}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: i * 0.04 }}
+            whileTap={{ scale: 0.98 }}
+          >
+            <Link
+              to={to}
+              className="flex items-center gap-3 bg-surface border border-border rounded-xl2 p-4"
+            >
+              <div className="w-9 h-9 rounded-xl2 bg-surface2 flex items-center justify-center shrink-0">
+                <Icon size={17} className="text-accent" />
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="font-medium text-sm">{title}</p>
+                <p className="text-textSecondary text-[11px] mt-0.5 truncate">{desc}</p>
+              </div>
+              <ChevronRight size={17} className="text-textSecondary shrink-0" />
+            </Link>
+          </motion.div>
+        ))}
+      </div>
+
+      <p className="text-textSecondary/50 text-[11px] text-center mt-8">Lift</p>
     </div>
   );
 }

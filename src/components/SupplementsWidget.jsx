@@ -44,7 +44,7 @@ export default function SupplementsWidget() {
         </div>
         <WaterTracker water={water} goal={goal} pct={waterPct} onAdjust={adjustWater} />
         <Link
-          to="/config"
+          to="/config/suplementos"
           className="flex items-center justify-center gap-1.5 text-accent text-xs font-medium mt-3 pt-3 border-t border-border"
         >
           <Plus size={13} />
@@ -61,7 +61,7 @@ export default function SupplementsWidget() {
           <Pill size={16} className="text-accent" />
           <span className="text-xs font-medium text-textSecondary uppercase tracking-wide">Suplementos hoje</span>
         </div>
-        <Link to="/config" className="text-textSecondary">
+        <Link to="/config/suplementos" className="text-textSecondary">
           <Settings2 size={14} />
         </Link>
       </div>

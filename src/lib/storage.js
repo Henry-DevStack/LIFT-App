@@ -78,6 +78,11 @@ export const db = {
 
   // ---- Medidas corporais / peso ----
   getMeasurements: () => read(KEYS.MEASUREMENTS, []),
+  deleteMeasurement: (id) => {
+    const all = db.getMeasurements().filter((m) => m.id !== id);
+    write(KEYS.MEASUREMENTS, all);
+    return all;
+  },
   addMeasurement: (entry) => {
     const all = db.getMeasurements();
     all.unshift({ ...entry, id: uid(), date: new Date().toISOString() });

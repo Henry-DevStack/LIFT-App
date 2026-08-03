@@ -115,7 +115,7 @@ export default function NutritionPage() {
       )}
 
       {showForm && (
-        <div className="fixed inset-0 bg-black/60 flex items-end z-50">
+        <div className="fixed inset-0 bg-black/70 flex items-end z-[70]">
           <div className="bg-surface w-full max-w-[480px] mx-auto rounded-t-2xl p-5 pb-8">
             <div className="flex items-center justify-between mb-4">
               <h3 className="font-display font-semibold text-lg">Nova refeição</h3>
