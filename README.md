@@ -1,5 +1,11 @@
 <div align="center">
 
+<div align="center">
+
+<img src="./.github/assets/readme-banner.gif" alt="Lift — Treine. Registre. Evolua." width="100%">
+
+</div>
+
 # 🏋️ Lift
 
 **Seu treino, do planejamento ao progresso — em um app só, offline e sem conta.**
@@ -13,7 +19,7 @@
 
 </div>
 
----
+<img src="./.github/assets/readme-divider.gif" alt="" width="100%">
 
 ## 🚀 Acesse agora
 
@@ -21,7 +27,7 @@
 
 Abre direto no navegador. Sem cadastro, sem download, sem instalar nada.
 
----
+<img src="./.github/assets/readme-divider.gif" alt="" width="100%">
 
 ## Sobre
 
