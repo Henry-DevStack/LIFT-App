@@ -35,7 +35,7 @@ O **Lift** nasceu de um incômodo simples: apps de treino ou pedem assinatura, o
 
 Aqui a proposta é outra. Você abre, registra, e pronto. Sem login, sem servidor, sem anúncio. Os dados ficam no seu aparelho e o app funciona **mesmo sem internet** — o que importa quando a academia fica no subsolo e o sinal não chega.
 
----
+<img src="./.github/assets/readme-divider.gif" alt="" width="100%">
 
 ## ✨ Funcionalidades
 
@@ -76,7 +76,7 @@ O Lift é um **PWA**: abra o [link acima](https://fit-app-woad.vercel.app) no ce
 
 Depois de instalado, abre pelo ícone, em tela cheia e **funciona offline**.
 
----
+<img src="./.github/assets/readme-divider.gif" alt="" width="100%">
 
 ## 🔒 Privacidade
 
@@ -89,7 +89,7 @@ Isso tem duas consequências que vale entender:
 
 O assistente de IA é a única parte que acessa a internet, e só quando você o utiliza. A chave de API fica salva apenas no seu dispositivo e **não é incluída no arquivo de backup**.
 
----
+<img src="./.github/assets/readme-divider.gif" alt="" width="100%">
 
 ## 🛠️ Stack
 
@@ -103,7 +103,7 @@ O assistente de IA é a única parte que acessa a internet, e só quando você o
 | Ícones | Lucide |
 | Dados | `localStorage` |
 
----
+<img src="./.github/assets/readme-divider.gif" alt="" width="100%">
 
 ## 💻 Rodando localmente
 
@@ -125,7 +125,7 @@ Abre em `http://localhost:5173`.
 
 > O modo offline só funciona no build de produção sobre HTTPS — service workers não são registrados em `localhost` durante o desenvolvimento.
 
----
+<img src="./.github/assets/readme-divider.gif" alt="" width="100%">
 
 ## 🗂️ Estrutura
 
@@ -139,7 +139,7 @@ src/
 
 A separação é proposital: `lib/` não sabe que React existe, então a lógica de negócio pode mudar sem tocar em nenhuma tela — e vice-versa.
 
----
+<img src="./.github/assets/readme-divider.gif" alt="" width="100%">
 
 ## 🗺️ Próximos passos
 
@@ -148,7 +148,7 @@ A separação é proposital: `lib/` não sabe que React existe, então a lógica
 - [ ] Lembrete automático de backup
 - [ ] Nova identidade visual
 
----
+<img src="./.github/assets/readme-divider.gif" alt="" width="100%">
 
 ## 📄 Licença
 
