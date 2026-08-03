@@ -3,12 +3,14 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Flame } from "lucide-react";
 import { db } from "../lib/storage";
-import { getTrainingStatsForDate, todayStr } from "../lib/stats";
+import { getTrainingStatsForDate } from "../lib/stats";
+import useToday from "../hooks/useToday";
 import WeekAgenda from "../components/WeekAgenda";
 import SupplementsWidget from "../components/SupplementsWidget";
 import TodayWorkoutCard from "../components/TodayWorkoutCard";
 
 export default function HomePage() {
+  const today = useToday();
   const [profile, setProfile] = useState(db.getProfile());
   const [measurements, setMeasurements] = useState([]);
 
@@ -18,7 +20,7 @@ export default function HomePage() {
   }, []);
 
   const lastMeasurement = measurements[0];
-  const todayTraining = getTrainingStatsForDate(todayStr());
+  const todayTraining = getTrainingStatsForDate(today);
 
   return (
     <div className="px-5 pt-6">

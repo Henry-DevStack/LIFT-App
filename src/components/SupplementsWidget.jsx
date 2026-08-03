@@ -1,18 +1,26 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Pill, Check, Droplets, Plus, Minus, Settings2 } from "lucide-react";
 import { db } from "../lib/storage";
-import { todayStr } from "../lib/stats";
+import useToday from "../hooks/useToday";
 
 const WATER_STEP = 250;
 
 export default function SupplementsWidget() {
-  const today = todayStr();
+  // `today` se mantém correto mesmo com o app aberto de um dia pro outro.
+  const today = useToday();
   const [supplements] = useState(() => db.getSupplements());
   const [logs, setLogs] = useState(() => db.getSupplementLogs());
   const [profile] = useState(() => db.getProfile());
   const [water, setWater] = useState(() => db.getWaterForDate(today));
+
+  // Quando a data vira, os dados exibidos precisam vir do novo dia —
+  // senão o widget continuaria mostrando a água e os checks de ontem.
+  useEffect(() => {
+    setLogs(db.getSupplementLogs());
+    setWater(db.getWaterForDate(today));
+  }, [today]);
 
   const goal = profile.waterGoalMl || 2500;
   const waterPct = Math.min(100, Math.round((water / goal) * 100));

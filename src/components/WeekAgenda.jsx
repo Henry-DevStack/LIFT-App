@@ -8,10 +8,10 @@ import {
   DAY_LABELS_SHORT,
   buildWeek,
   toDateStr,
-  todayStr,
   getTrainingStatsForDate,
   getNutritionStatsForDate,
 } from "../lib/stats";
+import useToday from "../hooks/useToday";
 import ProgressRing from "./ProgressRing";
 import ExerciseIcon from "./ExerciseIcon";
 
@@ -22,13 +22,13 @@ const RING_TARGETS = { sets: 20, volume: 2500, reps: 100 };
 // ele ocupava bastante espaço sem ser usado — mas basta passar
 // `showNutrition` para trazer de volta, sem precisar reescrever nada.
 export default function WeekAgenda({ showNutrition = false }) {
+  const today = useToday();
   const [weekRef, setWeekRef] = useState(new Date());
-  const [selected, setSelected] = useState(todayStr());
+  const [selected, setSelected] = useState(today);
   const [workouts] = useState(() => db.getWorkouts());
   const [profile] = useState(() => db.getProfile());
 
   const week = useMemo(() => buildWeek(weekRef), [weekRef]);
-  const today = todayStr();
 
   const training = getTrainingStatsForDate(selected);
   const nutrition = showNutrition ? getNutritionStatsForDate(selected) : null;

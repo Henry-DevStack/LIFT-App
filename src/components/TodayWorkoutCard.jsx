@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Play, Check, RotateCcw } from "lucide-react";
 import { db } from "../lib/storage";
-import { DAY_KEYS, todayStr, getTrainingStatsForDate } from "../lib/stats";
+import { DAY_KEYS, getTrainingStatsForDate } from "../lib/stats";
+import useToday from "../hooks/useToday";
 import ExerciseIcon from "./ExerciseIcon";
 
 // Card do treino agendado para hoje, no topo da tela inicial.
@@ -12,16 +13,20 @@ import ExerciseIcon from "./ExerciseIcon";
 // simplesmente não aparece — nada de card vazio dizendo "sem treino hoje",
 // que só ocuparia espaço. Dias de descanso deixam a Home mais limpa.
 export default function TodayWorkoutCard() {
+  const today = useToday();
+
   const { workout, alreadyDone } = useMemo(() => {
-    const todayKey = DAY_KEYS[new Date().getDay()];
+    // Deriva o dia da semana a partir de `today` (e não de um new Date()
+    // solto), pra que o card acompanhe a virada de dia com o app aberto.
+    const todayKey = DAY_KEYS[new Date(today + "T00:00:00").getDay()];
     const found = db.getWorkouts().find((w) => w.days?.includes(todayKey));
     if (!found) return { workout: null, alreadyDone: false };
 
     // Já treinou hoje? Muda o tom do card de "bora" para "feito".
-    const logs = getTrainingStatsForDate(todayStr()).logs;
+    const logs = getTrainingStatsForDate(today).logs;
     const done = logs.some((l) => l.workoutId === found.id);
     return { workout: found, alreadyDone: done };
-  }, []);
+  }, [today]);
 
   if (!workout) return null;
 
