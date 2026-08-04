@@ -10,22 +10,12 @@
 
 **Seu treino, do planejamento ao progresso — em um app só, offline e sem conta.**
 
-[![Acessar o Lift](https://img.shields.io/badge/▶_Acessar_o_Lift-c8f751?style=for-the-badge&logo=vercel&logoColor=0d0f0e&labelColor=0d0f0e)](https://fit-app-woad.vercel.app)
-
 [![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
 [![React](https://img.shields.io/badge/React_19-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://react.dev/)
 [![Tailwind](https://img.shields.io/badge/Tailwind-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 [![PWA](https://img.shields.io/badge/PWA-5A0FC8?style=for-the-badge&logo=pwa&logoColor=white)](https://web.dev/progressive-web-apps/)
 
 </div>
-
-<img src="./.github/assets/readme-divider.gif" alt="" width="100%">
-
-## 🚀 Acesse agora
-
-👉 **[https://fit-app-woad.vercel.app](https://fit-app-woad.vercel.app)**
-
-Abre direto no navegador. Sem cadastro, sem download, sem instalar nada.
 
 <img src="./.github/assets/readme-divider.gif" alt="" width="100%">
 
@@ -67,7 +57,7 @@ Aqui a proposta é outra. Você abre, registra, e pronto. Sem login, sem servido
 
 ## 📲 Instalação
 
-O Lift é um **PWA**: abra o [link acima](https://fit-app-woad.vercel.app) no celular e instale como app nativo, sem loja e sem download.
+O Lift é um **PWA**: instala como app nativo no celular, sem loja e sem download.
 
 | Plataforma | Como instalar |
 |---|---|
@@ -122,6 +112,14 @@ Abre em `http://localhost:5173`.
 | `npm run build` | Build de produção em `dist/` |
 | `npm run preview` | Pré-visualiza o build |
 | `npm run lint` | Verificação de código |
+
+### Variáveis de ambiente
+
+| Variável | Valores | O que faz |
+|---|---|---|
+| `VITE_DEMO_PUBLIC` | `true` / `false` | Com `true`, o aplicativo abre normalmente. Com `false` (ou ausente), exibe apenas a página de acesso restrito. |
+
+Copie `.env.example` para `.env` e ajuste conforme necessário. Na Vercel, defina a variável em **Settings → Environment Variables** e refaça o deploy.
 
 > O modo offline só funciona no build de produção sobre HTTPS — service workers não são registrados em `localhost` durante o desenvolvimento.
 
