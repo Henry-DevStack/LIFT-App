@@ -6,7 +6,7 @@
 
 </div>
 
-# 🏋️ Lift
+# 🏋️ LIFT
 
 **Seu treino, do planejamento ao progresso — em um app só, offline e sem conta.**
 
