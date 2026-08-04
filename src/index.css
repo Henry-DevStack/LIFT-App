@@ -26,6 +26,13 @@ body {
   position: relative;
 }
 
+/* A trava de 480px acima existe para o app se comportar como aplicativo de
+   celular mesmo aberto no desktop. A landing institucional é uma página web
+   comum e precisa ocupar a tela inteira, então recebe esta classe. */
+#root.full-width {
+  max-width: none;
+}
+
 ::-webkit-scrollbar {
   width: 6px;
 }
