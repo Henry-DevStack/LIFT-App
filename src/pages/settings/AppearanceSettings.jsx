@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Check, Palette } from "lucide-react";
-import { db } from "../../lib/storage";
-import { ACCENT_PRESETS, setAccent } from "../../lib/theme";
-import SettingsLayout from "../../components/SettingsLayout";
+import { db } from "../../services/storage";
+import { ACCENT_PRESETS, setAccent } from "../../services/theme";
+import SettingsLayout from "../../components/layout/SettingsLayout";
 
 export default function AppearanceSettings() {
   const [theme, setTheme] = useState(db.getTheme());

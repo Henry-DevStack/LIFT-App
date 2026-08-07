@@ -17,12 +17,12 @@ import AppearanceSettings from "./pages/settings/AppearanceSettings";
 import SupplementsSettings from "./pages/settings/SupplementsSettings";
 import AssistantSettings from "./pages/settings/AssistantSettings";
 import BackupSettings from "./pages/settings/BackupSettings";
-import ActiveWorkoutBar from "./components/ActiveWorkoutBar";
-import OfflineIndicator from "./components/OfflineIndicator";
-import WelcomeTour from "./components/WelcomeTour";
-import { auth } from "./lib/auth";
-import { db } from "./lib/storage";
-import { initTheme } from "./lib/theme";
+import ActiveWorkoutBar from "./components/layout/ActiveWorkoutBar";
+import OfflineIndicator from "./components/layout/OfflineIndicator";
+import WelcomeTour from "./components/widgets/WelcomeTour";
+import { auth } from "./services/auth";
+import { db } from "./services/storage";
+import { initTheme } from "./services/theme";
 
 const tabs = [
   { to: "/", icon: Home, label: "Início", end: true },

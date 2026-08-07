@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Dumbbell } from "lucide-react";
-import { db } from "../lib/storage";
-import { auth } from "../lib/auth";
+import { db } from "../services/storage";
+import { auth } from "../services/auth";
 
 export default function LoginPage({ onLogin }) {
   const [name, setName] = useState("");

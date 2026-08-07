@@ -1,5 +1,5 @@
 import { Dumbbell, Footprints, HeartPulse, Hexagon, Zap, TrendingUp, Sparkles, ArrowUpFromLine } from "lucide-react";
-import { getExerciseVisual } from "../data/exerciseVisuals";
+import { getExerciseVisual } from "../../data/exerciseVisuals";
 
 const ICONS = {
   chest: Dumbbell,

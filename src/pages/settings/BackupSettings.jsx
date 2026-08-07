@@ -1,8 +1,8 @@
 import { useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Download, Upload, ShieldCheck, AlertTriangle } from "lucide-react";
-import { downloadBackup, parseBackupFile, restoreBackup, describeBackup } from "../../lib/backup";
-import SettingsLayout from "../../components/SettingsLayout";
+import { downloadBackup, parseBackupFile, restoreBackup, describeBackup } from "../../services/backup";
+import SettingsLayout from "../../components/layout/SettingsLayout";
 
 export default function BackupSettings() {
   const [pendingBackup, setPendingBackup] = useState(null);

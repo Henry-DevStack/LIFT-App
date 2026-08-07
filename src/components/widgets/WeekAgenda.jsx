@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, Dumbbell, Utensils, Play } from "lucide-react";
-import { db } from "../lib/storage";
+import { db } from "../../services/storage";
 import {
   DAY_KEYS,
   DAY_LABELS_SHORT,
@@ -10,10 +10,10 @@ import {
   toDateStr,
   getTrainingStatsForDate,
   getNutritionStatsForDate,
-} from "../lib/stats";
-import useToday from "../hooks/useToday";
-import ProgressRing from "./ProgressRing";
-import ExerciseIcon from "./ExerciseIcon";
+} from "../../utils/stats";
+import useToday from "../../hooks/useToday";
+import ProgressRing from "../ui/ProgressRing";
+import ExerciseIcon from "../ui/ExerciseIcon";
 
 const RING_TARGETS = { sets: 20, volume: 2500, reps: 100 };
 

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, Dumbbell } from "lucide-react";
-import { db } from "../lib/storage";
+import { db } from "../../services/storage";
 
 const WEEK_LABELS = ["D", "S", "T", "Q", "Q", "S", "S"];
 

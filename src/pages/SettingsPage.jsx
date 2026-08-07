@@ -9,7 +9,7 @@ import {
   Sparkles,
   UserCircle,
 } from "lucide-react";
-import { db } from "../lib/storage";
+import { db } from "../services/storage";
 
 // Menu de configurações. Antes tudo vivia numa página só, que ficou longa
 // demais pra encontrar qualquer coisa. Agora cada assunto tem sua própria

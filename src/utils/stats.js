@@ -1,7 +1,7 @@
 // Helpers de data + agregações por dia, usados pela agenda semanal
 // (anéis de progresso) e por outros widgets que precisam saber
 // "o que aconteceu nesse dia".
-import { db } from "./storage";
+import { db } from "../services/storage";
 
 export const DAY_KEYS = ["dom", "seg", "ter", "qua", "qui", "sex", "sab"];
 export const DAY_LABELS_SHORT = ["D", "S", "T", "Q", "Q", "S", "S"];

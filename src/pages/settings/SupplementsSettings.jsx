@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Pill, Plus, Trash2, Droplets, Check } from "lucide-react";
-import { db, uid } from "../../lib/storage";
-import SettingsLayout from "../../components/SettingsLayout";
+import { db, uid } from "../../services/storage";
+import SettingsLayout from "../../components/layout/SettingsLayout";
 
 function emptySupplement() {
   return { name: "", dose: "" };

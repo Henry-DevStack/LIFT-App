@@ -18,14 +18,14 @@ import {
   Dumbbell,
   Layers,
 } from "lucide-react";
-import { db } from "../lib/storage";
-import { estimateWorkoutCaloriesSimple } from "../lib/calories";
+import { db } from "../services/storage";
+import { estimateWorkoutCaloriesSimple } from "../utils/calories";
 import { getMuscleGroup } from "../data/exerciseVisuals";
 import { EQUIPMENT_LABELS, suggestAlternatives } from "../data/exerciseDatabase";
-import { shouldSuggestLoadIncrease } from "../lib/gymBro";
-import { getMotivationalMessage } from "../lib/motivation";
-import ExerciseIcon from "../components/ExerciseIcon";
-import CountUp from "../components/CountUp";
+import { shouldSuggestLoadIncrease } from "../utils/gymBro";
+import { getMotivationalMessage } from "../utils/motivation";
+import ExerciseIcon from "../components/ui/ExerciseIcon";
+import CountUp from "../components/ui/CountUp";
 
 // Constrói o estado inicial das séries a partir do treino salvo.
 // Cada série vira uma linha editável { load, reps, done }.

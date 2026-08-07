@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, Plus, Trash2, GripVertical } from "lucide-react";
-import { db, uid } from "../lib/storage";
-import ExerciseIcon from "../components/ExerciseIcon";
+import { db, uid } from "../services/storage";
+import ExerciseIcon from "../components/ui/ExerciseIcon";
 
 const DAYS = [
   { key: "seg", label: "Seg" }, { key: "ter", label: "Ter" },

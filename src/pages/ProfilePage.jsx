@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Check } from "lucide-react";
-import { db } from "../lib/storage";
+import { db } from "../services/storage";
 
 const GOALS = [
   { key: "emagrecimento", label: "Emagrecimento" },

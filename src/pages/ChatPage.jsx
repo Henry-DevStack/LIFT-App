@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Send, Trash2, Sparkles, KeyRound, AlertCircle } from "lucide-react";
-import { db } from "../lib/storage";
-import { sendChatMessage, QUICK_PROMPTS } from "../lib/chat";
+import { db } from "../services/storage";
+import { sendChatMessage, QUICK_PROMPTS } from "../services/chat";
 
 export default function ChatPage() {
   const [messages, setMessages] = useState([]);

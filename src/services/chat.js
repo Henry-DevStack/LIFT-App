@@ -9,7 +9,7 @@
 // um backend pequeno que guarde a chave no servidor e faça a chamada.
 
 import { db } from "./storage";
-import { getTrainingStatsForDate, todayStr } from "./stats";
+import { getTrainingStatsForDate, todayStr } from "../utils/stats";
 
 const API_URL = "https://api.anthropic.com/v1/messages";
 

@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Pill, Check, Droplets, Plus, Minus, Settings2 } from "lucide-react";
-import { db } from "../lib/storage";
-import useToday from "../hooks/useToday";
+import { db } from "../../services/storage";
+import useToday from "../../hooks/useToday";
 
 const WATER_STEP = 250;
 

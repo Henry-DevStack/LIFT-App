@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronUp } from "lucide-react";
-import { db } from "../lib/storage";
+import { db } from "../../services/storage";
 
 // Barra fina que fica visível no app inteiro enquanto existe um treino em
 // andamento. Sair da tela de execução não interrompe nada: o cronômetro

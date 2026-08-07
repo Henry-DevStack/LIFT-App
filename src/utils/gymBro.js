@@ -4,7 +4,7 @@
 // Regra: olha os últimos `streak` registros desse exercício (pelo nome).
 // Se em todos eles o usuário completou todas as séries planejadas e bateu
 // (ou passou) a meta de reps em cada série, sugere aumentar a carga.
-import { db } from "./storage";
+import { db } from "../services/storage";
 
 export function getExerciseHistory(exerciseName, limit = 10) {
   const logs = db.getWorkoutLogs();

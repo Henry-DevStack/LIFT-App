@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Plus, Trash2, X } from "lucide-react";
-import { db } from "../lib/storage";
+import { db } from "../services/storage";
 
 const MEAL_TYPES = [
   { key: "cafe", label: "Café da manhã" },

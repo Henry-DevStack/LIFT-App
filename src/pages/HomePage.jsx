@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Flame, Settings } from "lucide-react";
-import { db } from "../lib/storage";
-import { getTrainingStatsForDate } from "../lib/stats";
+import { db } from "../services/storage";
+import { getTrainingStatsForDate } from "../utils/stats";
 import useToday from "../hooks/useToday";
-import WeekAgenda from "../components/WeekAgenda";
-import SupplementsWidget from "../components/SupplementsWidget";
-import TodayWorkoutCard from "../components/TodayWorkoutCard";
+import WeekAgenda from "../components/widgets/WeekAgenda";
+import SupplementsWidget from "../components/widgets/SupplementsWidget";
+import TodayWorkoutCard from "../components/widgets/TodayWorkoutCard";
 
 export default function HomePage() {
   const today = useToday();

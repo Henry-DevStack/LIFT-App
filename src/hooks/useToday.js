@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { todayStr } from "../lib/stats";
+import { todayStr } from "../utils/stats";
 
 // Mantém a data de hoje sempre atualizada.
 //

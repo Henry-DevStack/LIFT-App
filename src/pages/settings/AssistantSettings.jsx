@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Check, Sparkles, Eye, EyeOff } from "lucide-react";
-import { db } from "../../lib/storage";
-import SettingsLayout from "../../components/SettingsLayout";
+import { db } from "../../services/storage";
+import SettingsLayout from "../../components/layout/SettingsLayout";
 
 export default function AssistantSettings() {
   const [chatConfig, setChatConfig] = useState(db.getChatConfig());

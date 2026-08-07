@@ -2,8 +2,8 @@ import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Plus, X, Trash2, TrendingUp, TrendingDown, Minus as MinusIcon } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, Tooltip, CartesianGrid } from "recharts";
-import { db } from "../lib/storage";
-import { getAccentColor } from "../lib/theme";
+import { db } from "../services/storage";
+import { getAccentColor } from "../services/theme";
 
 // Métricas acompanhadas. Centralizar aqui significa que adicionar uma
 // medida nova (panturrilha, quadril, etc.) é acrescentar uma linha —

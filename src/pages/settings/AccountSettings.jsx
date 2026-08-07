@@ -2,9 +2,9 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Check, User, PlayCircle, LogOut } from "lucide-react";
-import { db } from "../../lib/storage";
-import { auth } from "../../lib/auth";
-import SettingsLayout from "../../components/SettingsLayout";
+import { db } from "../../services/storage";
+import { auth } from "../../services/auth";
+import SettingsLayout from "../../components/layout/SettingsLayout";
 
 export default function AccountSettings() {
   const navigate = useNavigate();

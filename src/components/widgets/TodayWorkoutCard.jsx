@@ -2,10 +2,10 @@ import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Play, Check, RotateCcw } from "lucide-react";
-import { db } from "../lib/storage";
-import { DAY_KEYS, getTrainingStatsForDate } from "../lib/stats";
-import useToday from "../hooks/useToday";
-import ExerciseIcon from "./ExerciseIcon";
+import { db } from "../../services/storage";
+import { DAY_KEYS, getTrainingStatsForDate } from "../../utils/stats";
+import useToday from "../../hooks/useToday";
+import ExerciseIcon from "../ui/ExerciseIcon";
 
 // Card do treino agendado para hoje, no topo da tela inicial.
 //

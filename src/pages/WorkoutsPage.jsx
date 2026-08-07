@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Plus, Dumbbell, ChevronRight, Trash2, Library, X, Check } from "lucide-react";
-import { db, uid } from "../lib/storage";
+import { db, uid } from "../services/storage";
 import { ALL_TEMPLATE_DAYS } from "../data/workoutTemplates";
 import { MUSCLE_GROUPS } from "../data/exerciseVisuals";
-import ExerciseIcon from "../components/ExerciseIcon";
+import ExerciseIcon from "../components/ui/ExerciseIcon";
 
 const DAYS_LABEL = { seg: "Seg", ter: "Ter", qua: "Qua", qui: "Qui", sex: "Sex", sab: "Sáb", dom: "Dom" };
 
